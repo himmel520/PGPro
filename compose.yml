@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  commands_srv:
+    restart: on-failure
+    container_name: main
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8080"
+    environment:
+      - PG_PASSWORD=postgres123
+    depends_on:
+      - pg
+
+  pg:
+    restart: always
+    container_name: pg
+    image: postgres:alpine3.19
+    environment:
+      - POSTGRES_PASSWORD=postgres123
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+    - "./migrations/000001_commands.up.sql:/docker-entrypoint-initdb.d/init.sql"
+    ports:
+    - "5432:5432"
+    
+
+
+
+
