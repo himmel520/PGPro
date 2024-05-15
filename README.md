@@ -49,3 +49,7 @@ Repository Layer: Отвечает за взаимодействие с базо
 | end_time          | TIMESTAMP        |                  | NULL     |
 | exitcode          | INTEGER          |                  | 0        |
 | output            | TEXT             |                  | ''       |
+
+## TODO:
+- добавить тесты
+- добавить удаление команды по id
