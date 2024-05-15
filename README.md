@@ -1,6 +1,6 @@
 # Тестовое задание
 
-## запуск
+## Запуск
 ```shell
 docker compose build
 docker compose up
@@ -12,6 +12,7 @@ docker compose up
 - Сборка приложения (Dockerfile, compose.yml)
 
 ## Произвольный функционал
+- Swagger docs: http://localhost:8000/swagger/index.html
 - Получение информации о выполнении команды по ее id.
 - Обновление команды по id.
 
