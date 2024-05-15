@@ -21,7 +21,7 @@ type CommandRun struct {
 	CommandID string    `json:"command_id"`
 	StartTime time.Time `json:"start_time"`
 	EndTime   time.Time `json:"end_time,omitempty"`
-	ExitCode  int       `json:"exitcode,omitempty"`
+	ExitCode  int       `json:"exitcode"`
 	Output    string    `json:"output"`
 }
 

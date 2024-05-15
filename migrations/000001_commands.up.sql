@@ -11,6 +11,6 @@ CREATE TABLE IF NOT EXISTS commands_info (
     start_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     end_time TIMESTAMP DEFAULT NULL,
     CONSTRAINT valid_end_time CHECK (end_time >= start_time),
-    exitcode INTEGER DEFAULT -1,
+    exitcode INTEGER DEFAULT 0,
     output text DEFAULT ''
 );

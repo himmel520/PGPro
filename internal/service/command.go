@@ -76,7 +76,6 @@ func (s *Service) RunCommand(ctx context.Context, id string) error {
 
 	for output := range outputs {
 		cr := &model.CommandRun{CommandID: id, Output: output}
-		logrus.Warning(id, cr)
 		if err := s.repo.UpdateCommandInfo(ctx, cr); err != nil {
 			return fmt.Errorf("failed to update command info: %v", err)
 		}
@@ -97,6 +96,5 @@ func (s *Service) StopCommand(ctx context.Context, id string) error {
 		return fmt.Errorf("failed to stop command: %v", err)
 	}
 	logrus.Infof("the comand ID=%v is stopped", id)
-
 	return nil
 }

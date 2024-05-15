@@ -18,6 +18,14 @@ var (
 	configPath = "./configs/base.yml"
 )
 
+
+// @title PGPro App API
+// @version 1.0
+// @description API Server for PGPro Application
+
+// TODO: получать порт из конфига
+// @host localhost:8000
+// @BasePath /
 func main() {
 	// Load configuration
 	cfg, err := config.New(configPath)

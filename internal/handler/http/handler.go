@@ -4,7 +4,10 @@ import (
 	"context"
 
 	"github.com/gin-gonic/gin"
+	_ "github.com/himmel520/pgPro/docs"
 	"github.com/himmel520/pgPro/pkg/model"
+	"github.com/swaggo/files"
+	"github.com/swaggo/gin-swagger"
 )
 
 // Service represents the interface for managing commands.
@@ -36,7 +39,7 @@ func New(srv Service) *Handler {
 // InitRoutes initializes the HTTP routes.
 func (h *Handler) InitRoutes() *gin.Engine {
 	r := gin.Default()
-
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	// TO-DO id validation
 	api := r.Group("/api/v1")
 	{
@@ -49,7 +52,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			commands.POST("/", h.CreateCommand)             // Create a new command
 			commands.POST("/:id/stop", h.StopCommand)       // Stop a command by ID
 			commands.PUT("/:id", h.UpdateCommand)           // Update a command by ID
-			// TO-DO удалять информацию из 2 таблиц
+			// TODO: удалять информацию из 2 таблиц, остановка команды?
 			// commands.DELETE("/:id", h.DeleteCommand)        // Delete a command by ID
 		}
 	}
