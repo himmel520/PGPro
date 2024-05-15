@@ -30,4 +30,21 @@ Service Layer: Включает в себя репозиторий для раб
 
 Repository Layer: Отвечает за взаимодействие с базой данных.
 
+## Postgres
+Таблица: commands 
+| Поле              | Тип              | Обязательность   | Значение по умолчанию |
+|-------------------|------------------|------------------|------------------|
+| id                | UUID             | PRIMARY KEY      |gen_random_uuid() |
+| name              | VARCHAR(64)      | NOT NULL         |                  |
+| description       | TEXT             |                  |                  |
+| script            | TEXT             | NOT NULL         |                  |
 
+Таблица: commands_info
+| Поле              | Тип              | Обязательность   | Значение по умолчанию |
+|-------------------|------------------|------------------|------------------|
+| id                | UUID             | PRIMARY KEY      | DEFAULT gen_random_uuid() |
+| commands_id       | UUID             | REFERENCES commands(id) |           |
+| start_time        | TIMESTAMP        | NOT NULL         | DEFAULT CURRENT_TIMESTAMP |
+| end_time          | TIMESTAMP        |                  | DEFAULT NULL     |
+| exitcode          | INTEGER          |                  | DEFAULT 0        |
+| output            | TEXT             |                  | DEFAULT ''       |
