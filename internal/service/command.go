@@ -2,12 +2,15 @@ package service
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"time"
 
 	"github.com/himmel520/pgPro/pkg/model"
 	"github.com/sirupsen/logrus"
 )
+
+var ErrCommandIsRunning = errors.New("the command is running")
 
 // GetCommands retrieves all commands from the repository.
 func (s *Service) GetCommands(ctx context.Context) ([]*model.Command, error) {
@@ -30,6 +33,9 @@ func (s *Service) UpdateCommand(ctx context.Context, c *model.Command, id string
 
 // DeleteCommand deletes a command by its ID from the repository.
 func (s *Service) DeleteCommand(ctx context.Context, id string) error {
+	if s.runner.IsCmdExist(id){
+		return ErrCommandIsRunning
+	}
 	return s.repo.DeleteCommand(ctx, id)
 }
 
@@ -53,6 +59,8 @@ func (s *Service) CreateCommand(ctx context.Context, c *model.Command) (string, 
 		if err := s.RunCommand(context.Background(), id); err != nil {
 			logrus.Error("failed to run command:", err)
 		}
+
+		s.runner.DeleteCommand(id)
 	}()
 
 	return id, nil

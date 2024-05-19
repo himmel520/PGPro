@@ -15,7 +15,7 @@ import (
 // @Produce json
 // @Accept  json
 // @Success 200 {object} response
-// @Router /ping [get]
+// @Router /api/v1/ping [get]
 func (h *Handler) Ping(c *gin.Context) {
 	c.JSON(http.StatusOK, response{"pong"})
 }
@@ -132,14 +132,22 @@ func (h *Handler) UpdateCommand(c *gin.Context) {
 }
 
 // DeleteCommand deletes a command by its ID.
-// DELETE /api/v1/commands/:id
-// func (h *Handler) DeleteCommand(c *gin.Context) {
-// 	id := c.Param("id")
+// @Summary Delete a command by ID
+// @Description Delete a command by its ID
+// @Tags commands
+// @Produce json
+// @Param id path string true "Command ID"
+// @Success 200 {object} response
+// @Failure 500 {object} errorResponse
+// @Router /api/v1/commands/{id} [delete]
+func (h *Handler) DeleteCommand(c *gin.Context) {
+	id := c.Param("id")
 
-// 	err := h.srv.DeleteCommand(c.Request.Context(), id)
-// 	if err != nil {
-// 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
-// 	}
+	err := h.srv.DeleteCommand(c.Request.Context(), id)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
 
-// 	c.JSON(http.StatusOK, gin.H{"message": "ok"})
-// }
+	c.JSON(http.StatusOK, response{"ok"})
+}

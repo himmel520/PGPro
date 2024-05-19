@@ -41,25 +41,27 @@ func (r *Runner) AddCommand(id string, script string) error {
 
 // RunCommand executes a command with the given ID.
 func (r *Runner) RunCommand(id string) error {
-	r.mu.Lock()
-	cmd, ok := r.commands[id]
+	cmd, ok := r.GetCmd(id)
 	if !ok {
 		return ErrCommandNotExists
 	}
-	r.mu.Unlock()
 
 	// Execute the command
 	return cmd.run()
 }
 
+func(r *Runner) DeleteCommand(id string) {
+	r.mu.Lock()
+	delete(r.commands, id)
+	r.mu.Unlock()
+}
+
 // StopCommand stops a command with the given ID.
 func (r *Runner) StopCommand(id string) error {
-	r.mu.Lock()
-	cmd, ok := r.commands[id]
+	cmd, ok := r.GetCmd(id)
 	if !ok {
 		return ErrCommandNotExists
 	}
-	r.mu.Unlock()
 
 	// Stop the command
 	cmd.stop()
@@ -68,23 +70,34 @@ func (r *Runner) StopCommand(id string) error {
 
 // GetOutputChan retrieves the output channel for a command with the given ID.
 func (r *Runner) GetOutputChan(id string) (chan string, error) {
-	r.mu.RLock()
-	cmd, ok := r.commands[id]
+	cmd, ok := r.GetCmd(id)
 	if !ok {
 		return nil, ErrCommandNotExists
 	}
-	r.mu.RUnlock()
 
 	return cmd.output, nil
 }
 
 func (r *Runner) GetExitCode(id string) (int, error) {
-	r.mu.RLock()
-	cmd, ok := r.commands[id]
+	cmd, ok := r.GetCmd(id)
 	if !ok {
 		return -1, ErrCommandNotExists
 	}
-	r.mu.RUnlock()
 
 	return cmd.getStatus(), nil
+}
+
+func (r *Runner) GetCmd(id string) (*commandRun, bool) {
+	r.mu.RLock()
+	defer r.mu.RUnlock()
+	cmd, ok := r.commands[id]
+	return cmd, ok
+}
+
+
+func (r *Runner) IsCmdExist(id string) bool {
+	r.mu.RLock()
+	defer r.mu.RUnlock()
+	_, ok := r.commands[id]
+	return ok
 }

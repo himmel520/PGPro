@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS commands (
 
 CREATE TABLE IF NOT EXISTS commands_info (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    commands_id UUID REFERENCES commands(id),
+    commands_id UUID REFERENCES commands(id) ON DELETE CASCADE,
     start_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     end_time TIMESTAMP DEFAULT NULL,
     CONSTRAINT valid_end_time CHECK (end_time >= start_time),

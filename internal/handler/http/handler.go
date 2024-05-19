@@ -40,7 +40,7 @@ func New(srv Service) *Handler {
 func (h *Handler) InitRoutes() *gin.Engine {
 	r := gin.Default()
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	// TO-DO id validation
+	// TODO: id validation
 	api := r.Group("/api/v1")
 	{
 		api.GET("/ping", h.Ping)
@@ -52,8 +52,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			commands.POST("/", h.CreateCommand)             // Create a new command
 			commands.POST("/:id/stop", h.StopCommand)       // Stop a command by ID
 			commands.PUT("/:id", h.UpdateCommand)           // Update a command by ID
-			// TODO: удалять информацию из 2 таблиц, остановка команды?
-			// commands.DELETE("/:id", h.DeleteCommand)        // Delete a command by ID
+			commands.DELETE("/:id", h.DeleteCommand)        // Delete a command by ID
 		}
 	}
 

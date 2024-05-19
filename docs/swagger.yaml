@@ -110,6 +110,28 @@ paths:
       tags:
       - commands
   /api/v1/commands/{id}:
+    delete:
+      description: Delete a command by its ID
+      parameters:
+      - description: Command ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.errorResponse'
+      summary: Delete a command by ID
+      tags:
+      - commands
     get:
       consumes:
       - application/json
@@ -230,7 +252,7 @@ paths:
       summary: Stop a command by its ID
       tags:
       - commands info
-  /ping:
+  /api/v1/ping:
     get:
       consumes:
       - application/json

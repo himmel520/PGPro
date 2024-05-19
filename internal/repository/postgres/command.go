@@ -103,7 +103,6 @@ func (r *Repository) UpdateCommand(ctx context.Context, c *model.Command, id str
 
 // DeleteCommand deletes a command from the db by its ID.
 func (r *Repository) DeleteCommand(ctx context.Context, id string) error {
-	// _, err := r.DB.Exec(ctx, "DELETE FROM commands WHERE id=$1", id)
-	// return err
-	return nil
+	_, err := r.DB.Exec(ctx, "DELETE FROM commands WHERE id=$1", id)
+	return err
 }

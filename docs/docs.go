@@ -190,6 +190,39 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "description": "Delete a command by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "commands"
+                ],
+                "summary": "Delete a command by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Command ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/http.response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/http.errorResponse"
+                        }
+                    }
+                }
             }
         },
         "/api/v1/commands/{id}/info": {
@@ -280,7 +313,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/ping": {
+        "/api/v1/ping": {
             "get": {
                 "description": "Ping endpoint for health check",
                 "consumes": [
