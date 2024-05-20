@@ -78,6 +78,7 @@ func (r *Runner) GetOutputChan(id string) (chan string, error) {
 	return cmd.output, nil
 }
 
+// GetExitCode retrieves the exit code of a command by its ID.
 func (r *Runner) GetExitCode(id string) (int, error) {
 	cmd, ok := r.GetCmd(id)
 	if !ok {
@@ -87,6 +88,7 @@ func (r *Runner) GetExitCode(id string) (int, error) {
 	return cmd.getStatus(), nil
 }
 
+// GetCmd retrieves a command by its ID and indicates whether it exists.
 func (r *Runner) GetCmd(id string) (*commandRun, bool) {
 	r.mu.RLock()
 	defer r.mu.RUnlock()
@@ -94,7 +96,7 @@ func (r *Runner) GetCmd(id string) (*commandRun, bool) {
 	return cmd, ok
 }
 
-
+// IsCmdExist checks if a command exists by its ID.
 func (r *Runner) IsCmdExist(id string) bool {
 	r.mu.RLock()
 	defer r.mu.RUnlock()

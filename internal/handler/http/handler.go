@@ -46,13 +46,17 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		api.GET("/ping", h.Ping)
 		commands := api.Group("/commands")
 		{
-			commands.GET("/", h.GetCommands)                // Get all commands
-			commands.GET("/:id", h.GetCommandByID)          // Get command by ID
-			commands.GET("/:id/info", h.GetCommandInfoByID) // Get command output by ID
-			commands.POST("/", h.CreateCommand)             // Create a new command
-			commands.POST("/:id/stop", h.StopCommand)       // Stop a command by ID
-			commands.PUT("/:id", h.UpdateCommand)           // Update a command by ID
-			commands.DELETE("/:id", h.DeleteCommand)        // Delete a command by ID
+			commands.GET("/", h.GetCommands)    // Get all commands
+			commands.POST("/", h.CreateCommand) // Create a new command
+
+			commands.Use(h.validateID())
+			{
+				commands.GET("/:id", h.GetCommandByID)          // Get command by ID
+				commands.GET("/:id/info", h.GetCommandInfoByID) // Get command output by ID
+				commands.POST("/:id/stop", h.StopCommand)       // Stop a command by ID
+				commands.PUT("/:id", h.UpdateCommand)           // Update a command by ID
+				commands.DELETE("/:id", h.DeleteCommand)        // Delete a command by ID
+			}
 		}
 	}
 

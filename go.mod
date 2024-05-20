@@ -3,6 +3,7 @@ module github.com/himmel520/pgPro
 go 1.21.6
 
 require (
+	github.com/google/uuid v1.6.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/swaggo/swag v1.8.12
 	go.uber.org/mock v0.4.0

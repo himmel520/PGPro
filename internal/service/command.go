@@ -44,6 +44,7 @@ func (s *Service) GetCommandInfoByID(ctx context.Context, id string) (*model.Com
 	return s.repo.GetCommandInfo(ctx, id)
 }
 
+// CreateCommand creates a new command and adds it to the runner to be executed.
 func (s *Service) CreateCommand(ctx context.Context, c *model.Command) (string, error) {
 	id, err := s.repo.CreateCommand(ctx, c)
 	if err != nil {
@@ -51,15 +52,18 @@ func (s *Service) CreateCommand(ctx context.Context, c *model.Command) (string, 
 	}
 
 	go func() {
+		// Add the command to the runner
 		if err := s.runner.AddCommand(id, c.Script); err != nil {
 			logrus.Error("failed to add command to the runner:", err)
 			return
 		}
 
+		// Execute the command
 		if err := s.RunCommand(context.Background(), id); err != nil {
 			logrus.Error("failed to run command:", err)
 		}
 
+		// Delete the command from the runner after execution
 		s.runner.DeleteCommand(id)
 	}()
 
